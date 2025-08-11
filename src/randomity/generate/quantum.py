@@ -2,17 +2,19 @@ import os
 from qiskit import QuantumCircuit
 from qiskit_aer import Aer
 from qiskit import transpile
-import pandas as pd
 from math import ceil, log2
 from math import pi
 
-from .._utils.draw_histogram import draw_histogram as draw
+import warnings
+warnings.filterwarnings("ignore")
+
+from .._utils.draw_histogram import draw_histogram
 
 def qrandom(min_val:int=0, 
             max_val:int=10,
             num_out:int=1, 
             q_gate:str="h",
-            draw_histogram=False) -> list[int]:
+            hist=False) -> list[int]:
     """
     Generate a random number using quantum mechanics.
 
@@ -20,7 +22,13 @@ def qrandom(min_val:int=0,
         min_val (integer): Minimum value of the random number. Default is 0.
         max_val (integer): Maximum value of the random number. Default is 10.
         num_out (integer): Number of numbers to generate. Default is 1.
-        q_gate (string): Quantum gate to put on the qubit(s). Default is "h" (Hadamard gate).
+        q_gate (string): Quantum gate to put on the qubit(s). Options are:
+                        - "h" (Hadamard gate),
+                        - "rx" (Rotation-X gate),
+                        - "ry" (Rotation-Y gate),
+                        - "sx" (Square root of X gate).
+                    Default is "h" (Hadamard gate).
+        hist (boolean): Whether to display a histogram of the generated numbers. Default is False.
 
     Returns:
         A list of random integers.
@@ -32,14 +40,13 @@ def qrandom(min_val:int=0,
         shifted_int = random_int + min_val
         random_numbers.append(shifted_int)
 
-    if draw_histogram:
-        df = pd.DataFrame(random_numbers, columns=['Random Numbers'])
-        draw(df['Random Numbers'], 
+    if hist:
+        draw_histogram(random_numbers, 
              bins=10, 
              title='Histogram of Random Numbers', 
              xlabel='Value', 
              ylabel='Frequency', 
-             color='red', 
+             color='tab:red', 
              alpha=0.7, 
              edgecolor='black',
              grid=True)
@@ -49,7 +56,7 @@ def qrandom(min_val:int=0,
 def generateBit(gate:str="h") -> int:
     qc = QuantumCircuit(1, 1)
 
-    # hadamard gate
+    # Hadamard gate
     if gate == "h":
         qc.h(0)
     # Rotation-X gate
@@ -61,9 +68,6 @@ def generateBit(gate:str="h") -> int:
     # Square root of X gate
     elif gate == "sx":
         qc.sx(0)
-    # Square root of Y gate
-    elif gate == "sy":
-        qc.sy(0)
     else:
         qc.h(0)
 
@@ -85,3 +89,6 @@ def generateInt(max_val: int, q_gate: str) -> int:
         random_number = sum(bit * (2 ** i) for i, bit in enumerate(reversed(bits)))
         if random_number <= max_val:
             return random_number
+
+if __name__ == "__main__":
+    qrandom()
