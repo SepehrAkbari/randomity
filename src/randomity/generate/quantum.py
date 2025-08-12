@@ -89,6 +89,3 @@ def generateInt(max_val: int, q_gate: str) -> int:
         random_number = sum(bit * (2 ** i) for i, bit in enumerate(reversed(bits)))
         if random_number <= max_val:
             return random_number
-
-if __name__ == "__main__":
-    qrandom()
