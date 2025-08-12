@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 
-def draw_histogram(data, 
+from .check_param import _checkParam_histogram
+
+def _draw_histogram(data, 
                    bins:int=10, 
                    title:str='', 
                    xlabel:str='Value', 
@@ -26,6 +28,9 @@ def draw_histogram(data,
     Returns:
         None - Displays the histogram.
     """
+
+    _checkParam_histogram(data, bins, title, xlabel, ylabel, color, alpha, edgecolor, grid)
+
     try:
         plt.hist(data, bins=bins, color=color, alpha=alpha, edgecolor=edgecolor)
         plt.title(title)

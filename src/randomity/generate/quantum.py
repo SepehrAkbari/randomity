@@ -1,4 +1,3 @@
-import os
 from qiskit import QuantumCircuit
 from qiskit_aer import Aer
 from qiskit import transpile
@@ -8,7 +7,8 @@ from math import pi
 import warnings
 warnings.filterwarnings("ignore")
 
-from .._utils.draw_histogram import draw_histogram
+from .._utils.check_param import _checkParam_qrandom
+from .._utils.draw_histogram import _draw_histogram
 
 def qrandom(min_val:int=0, 
             max_val:int=10,
@@ -33,6 +33,8 @@ def qrandom(min_val:int=0,
     Returns:
         A list of random integers.
     """
+    _checkParam_qrandom(min_val, max_val, num_out, q_gate, hist)
+
     random_numbers = []
 
     for _ in range(num_out):
@@ -41,7 +43,7 @@ def qrandom(min_val:int=0,
         random_numbers.append(shifted_int)
 
     if hist:
-        draw_histogram(random_numbers, 
+        _draw_histogram(random_numbers, 
              bins=10, 
              title='Histogram of Random Numbers', 
              xlabel='Value', 

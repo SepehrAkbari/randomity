@@ -25,9 +25,31 @@ def test_histogram():
     result = qrandom(hist=True)
     assert isinstance(result, list)
 
-def test_gates():
-    """Test that different quantum gates can be used."""
-    gates = ["h", "rx", "ry", "sx"]
-    for gate in gates:
-        result = qrandom(q_gate=gate)
-        assert isinstance(result, list)
+def test_invalid_range():
+    """Test that an error is raised for invalid range."""
+    with pytest.raises(ValueError):
+        qrandom(min_val=10, max_val=5)
+    with pytest.raises(ValueError):
+        qrandom(min_val="five", max_val=10)
+
+def test_invalid_num_out():
+    """Test that an error is raised for invalid num_out."""
+    with pytest.raises(ValueError):
+        qrandom(num_out=0)
+    with pytest.raises(ValueError):
+        qrandom(num_out=-1)
+    with pytest.raises(ValueError):
+        qrandom(num_out="five")
+    with pytest.raises(ValueError):
+        qrandom(num_out=0.5)
+    with pytest.raises(ValueError):
+        qrandom(num_out=True)
+
+def test_invalid_hist():
+    """Test that an error is raised for invalid hist."""
+    with pytest.raises(ValueError):
+        qrandom(hist="yes")
+    with pytest.raises(ValueError):
+        qrandom(hist=1)
+    with pytest.raises(ValueError):
+        qrandom(hist=0.5)

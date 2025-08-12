@@ -1,6 +1,10 @@
-import os
+import warnings
+warnings.filterwarnings("ignore")
 
-from .._utils.draw_histogram import draw_histogram
+from .._utils.check_param import _checkParam_prandom
+from .._utils.check_param import _checkParam_pseudoFunc
+from .._utils.gen_seed import gen_seed_os
+from .._utils.draw_histogram import _draw_histogram
 
 from .algos.algo_MersenneTwister import _MersenneTwister
 from .algos.algo_XORShift import _XORShift
@@ -35,8 +39,10 @@ def prandom(min_val:int=0,
          A list of random integers.
     """
     if seed is None:
-        seed = int.from_bytes(os.urandom(4), byteorder='big')
-        
+        seed = gen_seed_os()
+
+    _checkParam_prandom(min_val, max_val, num_out, algo, seed, hist)
+
     if algo == "MersenneTwister" or algo == "MT":
         random_numbers = MersenneTwister(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
     elif algo == "XORShift" or algo == "XOR":
@@ -51,7 +57,7 @@ def prandom(min_val:int=0,
         random_numbers = MersenneTwister(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
 
     if hist:
-        draw_histogram(random_numbers, 
+        _draw_histogram(random_numbers, 
              bins=10, 
              title='Histogram of Random Numbers', 
              xlabel='Value', 
@@ -64,7 +70,12 @@ def prandom(min_val:int=0,
     return random_numbers
 
 
-def MersenneTwister(min_val:int, max_val:int, num_out:int, seed:int):
+def MersenneTwister(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+    if seed is None:
+        seed = gen_seed_os()
+
+    _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
+
     rng = _MersenneTwister(seed)
     random_numbers = []
 
@@ -77,7 +88,12 @@ def MersenneTwister(min_val:int, max_val:int, num_out:int, seed:int):
 
     return random_numbers
 
-def XORShift(min_val:int, max_val:int, num_out:int, seed:int):
+def XORShift(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+    if seed is None:
+        seed = gen_seed_os()
+
+    _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
+
     rng = _XORShift(seed)
     random_numbers = []
     range_size = max_val - min_val + 1
@@ -89,7 +105,12 @@ def XORShift(min_val:int, max_val:int, num_out:int, seed:int):
         
     return random_numbers
 
-def LCG(min_val:int, max_val:int, num_out:int, seed:int):
+def LCG(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+    if seed is None:
+        seed = gen_seed_os()
+
+    _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
+
     rng = _LCG(seed)
     random_numbers = []
     range_size = max_val - min_val + 1
@@ -101,13 +122,23 @@ def LCG(min_val:int, max_val:int, num_out:int, seed:int):
 
     return random_numbers
 
-def MTNumpy(min_val:int, max_val:int, num_out:int, seed:int):
+def MTNumpy(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+    if seed is None:
+        seed = gen_seed_os()
+
+    _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
+
     rng = _MTNumpy(seed)
     random_numbers = [min_val + (rng.extract_number() % (max_val - min_val + 1)) for _ in range(num_out)]
 
     return random_numbers
 
-def BlumBlumShub(min_val:int, max_val:int, num_out:int, seed:int):
+def BlumBlumShub(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+    if seed is None:
+        seed = gen_seed_os()
+
+    _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
+
     try:
         rng = _BlumBlumShub(seed)
     except ValueError as e:
