@@ -1,16 +1,18 @@
+import os
+
 from .._utils.draw_histogram import draw_histogram
 
-from algos.algo_MersenneTwister import _MersenneTwister
-from algos.algo_XORShift import _XORShift
-from algos.algo_MTNumpy import _MTNumpy
-from algos.algo_LCG import _LCG
-from algos.algo_BlumBlumShub import _BlumBlumShub
+from .algos.algo_MersenneTwister import _MersenneTwister
+from .algos.algo_XORShift import _XORShift
+from .algos.algo_MTNumpy import _MTNumpy
+from .algos.algo_LCG import _LCG
+from .algos.algo_BlumBlumShub import _BlumBlumShub
 
 def prandom(min_val:int=0,
             max_val:int=10,
             num_out:int=1,
             algo:str="MersenneTwister",
-            seed:int=42,
+            seed:int|None=None,
             hist=False) -> list[int]:
     """
     Generate a random number using a pseudo-random number generator (PRNG).
@@ -26,12 +28,15 @@ def prandom(min_val:int=0,
                         - "MTNumpy" (or "MersenneTwisterNumpy" or "Numpy"),
                         - "BlumBlumShub" (or "BBS").
                     Default is "MersenneTwister".
-        seed (integer): Seed for the random number generator. Default is 42.
+        seed (integer): Seed for the random number generator. Default is current system's time.
         hist (boolean): Whether to display a histogram of the generated numbers. Default is False.
 
     Returns:
          A list of random integers.
     """
+    if seed is None:
+        seed = int.from_bytes(os.urandom(4), byteorder='big')
+        
     if algo == "MersenneTwister" or algo == "MT":
         random_numbers = MersenneTwister(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
     elif algo == "XORShift" or algo == "XOR":
