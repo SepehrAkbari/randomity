@@ -1,0 +1,5 @@
+'''
+inspectRandom
+whyRandom
+isRandom
+'''

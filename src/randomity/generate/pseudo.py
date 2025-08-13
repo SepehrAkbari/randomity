@@ -44,17 +44,17 @@ def prandom(min_val:int=0,
     _checkParam_prandom(min_val, max_val, num_out, algo, seed, hist)
 
     if algo == "MersenneTwister" or algo == "MT":
-        random_numbers = MersenneTwister(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
+        random_numbers = mersenne_twister(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
     elif algo == "XORShift" or algo == "XOR":
-        random_numbers = XORShift(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
+        random_numbers = xor_shift(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
     elif algo == "LCG" or algo == "LinearCongruentialGenerator":
-        random_numbers = LCG(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
+        random_numbers = lcg(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
     elif algo == "MTNumpy" or algo == "MersenneTwisterNumpy" or algo == "Numpy":
-        random_numbers = MTNumpy(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
+        random_numbers = mt_numpy(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
     elif algo == "BlumBlumShub" or algo == "BBS":
-        random_numbers = BlumBlumShub(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
+        random_numbers = blum_blum_shub(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
     else:
-        random_numbers = MersenneTwister(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
+        random_numbers = mersenne_twister(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
 
     if hist:
         _draw_histogram(random_numbers, 
@@ -70,7 +70,7 @@ def prandom(min_val:int=0,
     return random_numbers
 
 
-def MersenneTwister(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+def mersenne_twister(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
     if seed is None:
         seed = gen_seed_os()
 
@@ -88,7 +88,7 @@ def MersenneTwister(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=
 
     return random_numbers
 
-def XORShift(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+def xor_shift(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
     if seed is None:
         seed = gen_seed_os()
 
@@ -105,7 +105,7 @@ def XORShift(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
         
     return random_numbers
 
-def LCG(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+def lcg(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
     if seed is None:
         seed = gen_seed_os()
 
@@ -122,7 +122,7 @@ def LCG(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
 
     return random_numbers
 
-def MTNumpy(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+def mt_numpy(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
     if seed is None:
         seed = gen_seed_os()
 
@@ -133,7 +133,7 @@ def MTNumpy(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
 
     return random_numbers
 
-def BlumBlumShub(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+def blum_blum_shub(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
     if seed is None:
         seed = gen_seed_os()
 

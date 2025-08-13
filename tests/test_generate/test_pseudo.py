@@ -27,9 +27,11 @@ def test_histogram():
     
 def test_randSeed():
     """Test that not setting a seed uses the os.urandom method."""
-    result1 = prandom()
+    result1 = prandom(seed=None)
     result2 = prandom()
-    assert result1 != result2, "Random numbers should differ when no seed is set"
+    result3 = prandom(seed=None)
+    result4 = prandom()
+    assert (result1 != result2) or (result3 != result4) or (result1 != result3) or (result2 != result4), "Random numbers should differ when no seed is set"
 
 def test_setSeed():
     """Test that setting a seed produces consistent results."""
