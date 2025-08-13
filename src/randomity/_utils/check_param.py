@@ -11,17 +11,17 @@ def _checkParam_prandom(min_val, max_val, num_out, algo, seed, hist):
     if not isinstance(num_out, int) or num_out <= 0 or isinstance(num_out, bool):
         raise ValueError("num_out must be a positive integer")
     
-    valids = ['MersenneTwister', 'XORShift', 'LCG', 'MersenneTwisterNumpy', 'BlumBlumShub']
-    valid_algos = {
-        "MersenneTwister": ["MersenneTwister", "MT"],
-        "XORShift": ["XORShift", "XOR"],
-        "LCG": ["LCG", "LinearCongruentialGenerator"],
-        "MTNumpy": ["MTNumpy", "MersenneTwisterNumpy", "Numpy"],
-        "BlumBlumShub": ["BlumBlumShub", "BBS"]
+    valid_algos = ["MersenneTwister", "XORShift", "LCG", "MTNumpy", "BlumBlumShub"]
+    algo_abbrs = {
+        "MersenneTwister": ["MT", "MersenneTwister"],
+        "XORShift": ["XOR", "XORShift"],
+        "LCG": ["LinearCongruentialGenerator", "LCG"],
+        "MTNumpy": ["Numpy", "MTNumpy", "MersenneTwisterNumpy"],
+        "BlumBlumShub": ["BBS", "BlumBlumShub"]
     }
-    for _, values in valid_algos.items():
-        if not (algo in values):
-            raise ValueError(f"Unsupported algorithm: {algo}. Choose from {valids}.")
+    for _, abbrs in algo_abbrs.items():
+        if not(algo in abbrs) and not(algo in valid_algos):
+            print(f"Unsupported algorithm: {algo}. Using MersenneTwister instead.")
 
     if not isinstance(seed, (int, type(None))):
         raise ValueError("seed must be an integer or None")
