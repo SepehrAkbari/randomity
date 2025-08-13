@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "randomity"
-version = "0.4.7"
+version = "0.5.1"
 authors = [
   { name="Sepehr Akbari", email="isepehrakbari@gmail.com" },
 ]
@@ -27,4 +27,4 @@ keywords = ["random", "randomness", "predictability", "TRNG", "PRNG"]
 
 [project.urls]
 Repository = "https://github.com/SepehrAkbari/randomity"
-"Changelog" = "https://github.com/SepehrAkbari/randomity/releases.md"
+"Changelog" = "https://github.com/SepehrAkbari/randomity/blob/main/releases.md"
