@@ -3,15 +3,17 @@ import re
 
 import numpy as np
 
-from ..evaluate.tests.chisqr_tst import chisqr_test
-from ..evaluate.tests.ks_tst import ks_test
-from ..evaluate.tests.freq_tst import freq_test
-from ..evaluate.tests.eqdist_tst import eqdist_test
-from ..evaluate.tests.gap_tst import gap_test
-from ..evaluate.tests.serial_tst import serial_test
-from ..evaluate.tests.permute_tst import permute_test
-from ..evaluate.tests.entropy_tst import entropy_test
-from ..evaluate.tests.ftt_tst import ftt_test
+from ..evaluate.tests import (
+    chisqr_test, 
+    ks_test, 
+    freq_test, 
+    eqdist_test, 
+    gap_test, 
+    serial_test, 
+    permute_test, 
+    entropy_test, 
+    ftt_test
+)
 
 def gen_test_vector(sequence: list) -> dict:
     """
