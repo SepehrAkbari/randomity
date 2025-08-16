@@ -2,8 +2,12 @@ import numpy as np
 import os
 import csv
 from typing import List
+import sys
 
-from ...src.randomity.generate import (
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', ))
+sys.path.insert(0, project_root)
+
+from src.randomity.generate import (
     qrandom, 
     lcg, 
     middle_square, 
@@ -22,8 +26,6 @@ def save_sequence(sequence: List[int], filename: str):
         writer.writerow(['n'])
         for val in sequence:
             writer.writerow([val])
-    print(f"Saved {filename}")
-
 
 def gen_test_set(num_sequences: int = 100, sequence_size: int = 1000):
     print("Generating sequences for the test set...")
@@ -54,7 +56,7 @@ def gen_test_set(num_sequences: int = 100, sequence_size: int = 1000):
     # Source 3: Middle-Square Method
     print("Middle-Square is generating...")
     for i in range(num_sequences):
-        seq = middle_square(seed=1234 + i, size=sequence_size)
+        seq = middle_square(max_val=1000, num_out=sequence_size, seed=1234 + i)
         seq_norm = [val % 1000 for val in seq]
         filename = f"midsquare_{i}.csv"
         save_sequence(seq_norm, filename)
@@ -67,12 +69,12 @@ def gen_test_set(num_sequences: int = 100, sequence_size: int = 1000):
         save_sequence(seq, filename)
 
     # Source 5: Quantum Randomness
-    print("QRNG is generating...")
-    gates = ["h", "rx", "ry", "sx"]
-    for i in range(num_sequences):
-        seq = qrandom(max_val=1000, num_out=sequence_size, q_gate=gates[i % len(gates)])
-        filename = f"qrandom_{i}.csv"
-        save_sequence(seq, filename)
+    # print("QRNG is generating...")
+    # gates = ["h", "rx", "ry", "sx"]
+    # for i in range(num_sequences):
+    #     seq = qrandom(max_val=1000, num_out=sequence_size, q_gate=gates[i % len(gates)])
+    #     filename = f"qrandom_{i}.csv"
+    #     save_sequence(seq, filename)
 
     # Source 6: Mersenne Twister
     print("Mersenne Twister is generating...")
@@ -91,7 +93,7 @@ def gen_test_set(num_sequences: int = 100, sequence_size: int = 1000):
     # source 8: Blum Blum Shub
     print("Blum Blum Shub is generating...")
     for i in range(num_sequences):
-        seq = blum_blum_shub(max_val=1000, num_out=sequence_size, seed=1234+i)
+        seq = blum_blum_shub(max_val=1000, num_out=sequence_size)
         filename = f"bbs_{i}.csv"
         save_sequence(seq, filename)
 

@@ -7,8 +7,8 @@ class _BlumBlumShub:
         
         self.M = self.p * self.q
         
-        if math.gcd(seed, self.M) != 1:
-            raise ValueError("Seed must be coprime to M.")
+        while math.gcd(seed, self.M) != 1:
+            seed += 1
 
         self.x = (seed * seed) % self.M
 

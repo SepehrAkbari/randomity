@@ -1,14 +1,20 @@
 import os
+import sys
 import pandas as pd
-from ...src.randomity._utils import _gen_test_vector
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', ))
+sys.path.insert(0, project_root)
+
+from src.randomity._utils import _gen_test_vector
 
 
 def train_normalization_parameters(data_dir: str = 'data') -> dict:
     """
-    Computes min/max values for non-p-value features across the entire dataset to be used for normalization.
+    Computes min/max values for non-p-value features across the entire dataset
+    to be used for normalization.
 
     Args:
-        data_dir (str): The directory where the sequence CSVs are stored from dataset.py.
+        data_dir (str): The directory where the sequence CSVs are stored (from dataset.py).
 
     Returns:
         dict: A dictionary containing the min and max values for each feature.
@@ -34,10 +40,9 @@ def train_normalization_parameters(data_dir: str = 'data') -> dict:
             try:
                 sequence = pd.read_csv(filepath)['n'].tolist()
                 
-                test_vector_df = _gen_test_vector(sequence)
+                test_vector_dict = _gen_test_vector(sequence)
                 
-                all_results.append(test_vector_df.iloc[0].to_dict())
-                print(f"Processed: {filename}")
+                all_results.append(test_vector_dict)
                 
             except Exception as e:
                 print(f"Skipping file '{filename}' due to an error: {e}")
