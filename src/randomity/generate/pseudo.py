@@ -111,13 +111,13 @@ def xor_shift(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
         
     return random_numbers
 
-def lcg(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+def lcg(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None, a: int = 1664525, c: int = 1013904223, m: int = 2**32):
     if seed is None:
         seed = _gen_seed_os()
 
     _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
 
-    rng = _LCG(seed)
+    rng = _LCG(seed, a=a, c=c, m=m)
     random_numbers = []
     range_size = max_val - min_val + 1
     
