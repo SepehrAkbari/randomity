@@ -15,7 +15,7 @@ from ..evaluate.tests import (
     ftt_test
 )
 
-def gen_test_vector(sequence: list) -> dict:
+def _gen_test_vector(sequence: list) -> dict:
     """
     Generate a result vector from the given sequence of numbers.
 
