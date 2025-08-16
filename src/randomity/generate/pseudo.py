@@ -3,14 +3,17 @@ warnings.filterwarnings("ignore")
 
 from .._utils.check_param import _checkParam_prandom
 from .._utils.check_param import _checkParam_pseudoFunc
-from .._utils.gen_seed import gen_seed_os
+from .._utils.gen_seed import _gen_seed_os
 from .._utils.draw_histogram import _draw_histogram
 
-from .algos.algo_MersenneTwister import _MersenneTwister
-from .algos.algo_XORShift import _XORShift
-from .algos.algo_MTNumpy import _MTNumpy
-from .algos.algo_LCG import _LCG
-from .algos.algo_BlumBlumShub import _BlumBlumShub
+from .algos import (
+    _MersenneTwister,
+    _XORShift,
+    _LCG,
+    _MTNumpy,
+    _BlumBlumShub,
+    _MiddleSquare
+)
 
 def prandom(min_val:int=0,
             max_val:int=10,
@@ -31,6 +34,7 @@ def prandom(min_val:int=0,
                         - "LCG" (or "LinearCongruentialGenerator"),
                         - "MTNumpy" (or "MersenneTwisterNumpy" or "Numpy"),
                         - "BlumBlumShub" (or "BBS").
+                        - "MiddleSquare".
                     Default is "MersenneTwister".
         seed (integer): Seed for the random number generator. Default is current system's time.
         hist (boolean): Whether to display a histogram of the generated numbers. Default is False.
@@ -39,7 +43,7 @@ def prandom(min_val:int=0,
          A list of random integers.
     """
     if seed is None:
-        seed = gen_seed_os()
+        seed = _gen_seed_os()
 
     _checkParam_prandom(min_val, max_val, num_out, algo, seed, hist)
 
@@ -53,6 +57,8 @@ def prandom(min_val:int=0,
         random_numbers = mt_numpy(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
     elif algo == "BlumBlumShub" or algo == "BBS":
         random_numbers = blum_blum_shub(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
+    elif algo == "MiddleSquare":
+        random_numbers = middle_square(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
     else:
         random_numbers = mersenne_twister(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
 
@@ -72,7 +78,7 @@ def prandom(min_val:int=0,
 
 def mersenne_twister(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
     if seed is None:
-        seed = gen_seed_os()
+        seed = _gen_seed_os()
 
     _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
 
@@ -90,7 +96,7 @@ def mersenne_twister(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None
 
 def xor_shift(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
     if seed is None:
-        seed = gen_seed_os()
+        seed = _gen_seed_os()
 
     _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
 
@@ -107,7 +113,7 @@ def xor_shift(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
 
 def lcg(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
     if seed is None:
-        seed = gen_seed_os()
+        seed = _gen_seed_os()
 
     _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
 
@@ -124,7 +130,7 @@ def lcg(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
 
 def mt_numpy(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
     if seed is None:
-        seed = gen_seed_os()
+        seed = _gen_seed_os()
 
     _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
 
@@ -135,7 +141,7 @@ def mt_numpy(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
 
 def blum_blum_shub(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
     if seed is None:
-        seed = gen_seed_os()
+        seed = _gen_seed_os()
 
     _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
 
@@ -153,4 +159,20 @@ def blum_blum_shub(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=N
         scaled_number = min_val + (raw_number % range_size)
         random_numbers.append(scaled_number)
         
+    return random_numbers
+
+def middle_square(min_val:int=0, max_val:int=10, num_out:int=1, seed:int|None=None):
+    if seed is None:
+        seed = _gen_seed_os()
+
+    _checkParam_pseudoFunc(min_val, max_val, num_out, seed)
+
+    rng = _MiddleSquare(seed)
+    random_numbers = []
+    
+    for _ in range(num_out):
+        raw_number = rng.next_int()
+        scaled_number = min_val + (raw_number % (max_val - min_val + 1))
+        random_numbers.append(scaled_number)
+
     return random_numbers
