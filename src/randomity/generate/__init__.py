@@ -6,5 +6,6 @@ from .pseudo import (
     xor_shift,
     lcg,
     mt_numpy,
-    blum_blum_shub
+    blum_blum_shub,
+    middle_square
 )
