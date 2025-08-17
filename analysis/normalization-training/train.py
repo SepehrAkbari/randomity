@@ -43,7 +43,10 @@ def train_normalization_parameters(data_dir: str = 'data') -> dict:
                 test_vector_dict = _gen_test_vector(sequence)
                 
                 all_results.append(test_vector_dict)
-                
+
+                if len(all_results) % 100 == 0:
+                    print(f"Processed {len(all_results)}/{len(os.listdir(data_dir))}")
+
             except Exception as e:
                 print(f"Skipping file '{filename}' due to an error: {e}")
 
