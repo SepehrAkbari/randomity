@@ -1,13 +1,6 @@
-import os
-import re
-import sys
-
 import numpy as np
 
-main_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, main_dir)
-
-from evaluate.tests import (
+from .._tests import (
     chisqr_test, 
     ks_test, 
     freq_test, 
