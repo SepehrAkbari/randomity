@@ -10,7 +10,8 @@ from .draw_histogram import (
 )
 
 from .gen_seed import (
-    _gen_seed_os
+    _gen_seed_os,
+    _find_valid_seed
 )
 
 from .gen_test_vector import (
@@ -22,4 +23,9 @@ from .compute_score import (
     _howPatterns,
     _howPeriodic,
     _getScore
+)
+
+from .check_prime import (
+    _is_prime,
+    _make_valid_prime
 )
