@@ -14,10 +14,6 @@ from .gen_seed import (
     _find_valid_seed
 )
 
-from .gen_test_vector import (
-    _gen_test_vector
-)
-
 from .compute_score import (
     _howUniform,
     _howPatterns,
