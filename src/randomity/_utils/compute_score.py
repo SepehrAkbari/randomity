@@ -1,5 +1,6 @@
 import numpy as np
 from typing import Dict, Union
+from .normalization_config import NORMALIZATION_PARAMS
 
 _FEATURES = {
     'uniformity': ['chisqr_p', 'ks_p', 'freq_p', 'eqdist_diff'],
@@ -9,23 +10,24 @@ _FEATURES = {
 
 def _get_normalized_score(value: float, feature_name: str) -> float:
     """
-    Normalizes a single test result value to a 0-1 score, where 1 is the most random.
+    Normalizes a single test result value to a 0-1 score.
     """
     if feature_name in ['chisqr_p', 'ks_p', 'freq_p', 'gap_p']:
         score = float(value)
     
-    elif feature_name == 'eqdist_diff':
-        score = 1.0 - (float(value) / 0.5)
+    elif feature_name in NORMALIZATION_PARAMS:
+        min_val = NORMALIZATION_PARAMS[feature_name]['min']
+        max_val = NORMALIZATION_PARAMS[feature_name]['max']
         
-    elif feature_name == 'serial_autocorrelation':
-        score = 1.0 - np.abs(float(value))
-    
-    elif feature_name == 'entropy_val':
-        score = float(value) / 4.0
-        
-    elif feature_name == 'fft_max_magnitude':
-        score = 1.0 - (float(value) / 20.0)
-        
+        if min_val == max_val:
+            score = 0.5
+        else:
+            normalized_value = (float(value) - min_val) / (max_val - min_val)
+            
+            if feature_name in ['eqdist_diff', 'serial_autocorrelation', 'fft_max_magnitude']:
+                score = 1.0 - normalized_value
+            else:
+                score = normalized_value
     else:
         score = 0.0
 
