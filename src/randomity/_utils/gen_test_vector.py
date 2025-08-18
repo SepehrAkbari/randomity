@@ -1,6 +1,6 @@
 import numpy as np
 
-from .._tests import (
+from ._tests import (
     chisqr_test, 
     ks_test, 
     freq_test, 
