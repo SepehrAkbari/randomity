@@ -45,19 +45,21 @@ def prandom(min_val:int=0,
     if seed is None:
         seed = _gen_seed_os()
 
+    algo = algo.lower()
+
     _checkParam_prandom(min_val, max_val, num_out, algo, seed, hist)
 
-    if algo == "MersenneTwister" or algo == "MT":
+    if algo == "mersennetwister" or algo == "mt":
         random_numbers = mersenne_twister(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
-    elif algo == "XORShift" or algo == "XOR":
+    elif algo == "xorshift" or algo == "xor":
         random_numbers = xor_shift(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
-    elif algo == "LCG" or algo == "LinearCongruentialGenerator":
+    elif algo == "lcg" or algo == "linearcongruentialgenerator":
         random_numbers = lcg(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
-    elif algo == "MTNumpy" or algo == "MersenneTwisterNumpy" or algo == "Numpy":
+    elif algo == "mtnumpy" or algo == "mersennetwisternumpy" or algo == "numpy":
         random_numbers = mt_numpy(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
-    elif algo == "BlumBlumShub" or algo == "BBS":
+    elif algo == "blumblumshub" or algo == "bbs":
         random_numbers = blum_blum_shub(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
-    elif algo == "MiddleSquare":
+    elif algo == "midsquare" or algo == "midsquare":
         random_numbers = middle_square(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)
     else:
         random_numbers = mersenne_twister(min_val=min_val, max_val=max_val, num_out=num_out, seed=seed)

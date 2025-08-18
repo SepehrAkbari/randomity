@@ -11,17 +11,17 @@ def _checkParam_prandom(min_val, max_val, num_out, algo, seed, hist):
     if not isinstance(num_out, int) or num_out <= 0 or isinstance(num_out, bool):
         raise ValueError("num_out must be a positive integer")
     
-    valid_algos = ["MersenneTwister", "XORShift", "LCG", "MTNumpy", "BlumBlumShub"]
-    algo_abbrs = {
-        "MersenneTwister": ["MT", "MersenneTwister"],
-        "XORShift": ["XOR", "XORShift"],
-        "LCG": ["LinearCongruentialGenerator", "LCG"],
-        "MTNumpy": ["Numpy", "MTNumpy", "MersenneTwisterNumpy"],
-        "BlumBlumShub": ["BBS", "BlumBlumShub"]
+    algos = {
+        "MersenneTwister": ["mt", "mersennetwister"],
+        "XORShift": ["xor", "xorshift"],
+        "LCG": ["linearcongruentialgenerator", "lcg"],
+        "MTNumpy": ["numpy", "mtnumpy", "mersennetwisternumpy"],
+        "BlumBlumShub": ["bbs", "blumblumshub"],
+        "MiddleSquare": ["middlesquare", "midsquare"]
     }
-    for _, abbrs in algo_abbrs.items():
-        if not(algo in abbrs) and not(algo in valid_algos):
-            print(f"Unsupported algorithm: {algo}. Using MersenneTwister instead.")
+
+    if not(any(algo in aliases for aliases in algos.values())):
+        print(f"Unsupported algorithm: '{algo}'. Defaulting to MersenneTwister instead.")
 
     if not isinstance(seed, (int, type(None))):
         raise ValueError("seed must be an integer or None")
