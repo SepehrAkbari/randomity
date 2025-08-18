@@ -107,3 +107,16 @@ def _checkParam_isRandom(sequence, threshold):
 
     if not isinstance(threshold, float) or not (0.0 <= threshold <= 1.0):
         raise ValueError("threshold must be a value between 0.0 and 1.0")
+    
+def _checkParam_inspectRandom(sequence):
+    """
+    Checks for the validity of parameters in inspectRandom().
+    """
+    if not isinstance(sequence, list) or len(sequence) == 0:
+        raise ValueError("sequence must be a non-empty list")
+    
+    if len(sequence) < 2:
+        raise ValueError("sequence must contain at least two elements to evaluate randomness")
+
+    if not all(isinstance(item, int) for item in sequence):
+        raise ValueError("All items in sequence must be integers")
