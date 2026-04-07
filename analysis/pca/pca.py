@@ -33,7 +33,7 @@ if not os.path.exists('result'):
     os.makedirs('result')
 
 plt.figure(figsize=(10, 6))
-plt.plot(range(1, len(explained_variance) + 1), explained_variance, marker='o')
+plt.plot(range(1, len(explained_variance) + 1), explained_variance, marker='o', color="#cb6437")
 plt.xlabel("Number of Principal Components")
 plt.ylabel("Explained Variance Ratio")
 plt.title("Explained Variance Ratio by Principal Components")
@@ -42,7 +42,7 @@ plt.tight_layout()
 plt.savefig('output/explained_variance_ratio.png')
 
 plt.figure(figsize=(10, 6))
-plt.plot(range(1, len(explained_variance) + 1), cumulative_variance, marker='o')
+plt.plot(range(1, len(explained_variance) + 1), cumulative_variance, marker='o', color="#cb6437")
 plt.xlabel("Number of Principal Components")
 plt.ylabel("Cumulative Explained Variance")
 plt.title("Cumulative Explained Variance by Principal Components")
@@ -107,8 +107,8 @@ def plot_spider_chart(pcs, title, filename):
     angles += angles[:1]
 
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
-    ax.fill(angles, values, color='tab:blue', alpha=0.25)
-    ax.plot(angles, values, color='tab:blue', linewidth=2)
+    ax.fill(angles, values, color='#cb6437', alpha=0.25)
+    ax.plot(angles, values, color='#cb6437', linewidth=2)
     ax.set_yticklabels([])
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(categories, fontsize=10)
