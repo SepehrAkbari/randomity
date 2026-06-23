@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv venv *)",
+      "Bash(uv pip *)",
+      "Bash(.venv-verify/Scripts/python -c ' *)",
+      "Bash(.venv-verify/Scripts/python -m pytest tests/test_evaluate/test_stat_tests.py -q)"
+    ]
+  }
+}

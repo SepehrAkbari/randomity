@@ -1,11 +1,12 @@
-from qiskit import QuantumCircuit
-from qiskit_aer import Aer
-from qiskit import transpile
 from math import ceil, log2
 from math import pi
 
 import warnings
 warnings.filterwarnings("ignore")
+
+# qiskit is imported lazily inside generateBit() so that the rest of the package
+# (evaluation, pseudo-random generation, statistical tests) can be used without the
+# heavy quantum stack installed. qiskit is only required when qrandom() is called.
 
 from .._utils.check_param import _checkParam_qrandom
 from .._utils.draw_histogram import _draw_histogram
@@ -56,6 +57,9 @@ def qrandom(min_val:int=0,
     return random_numbers
 
 def generateBit(gate:str="h") -> int:
+    from qiskit import QuantumCircuit, transpile
+    from qiskit_aer import Aer
+
     qc = QuantumCircuit(1, 1)
 
     # Hadamard gate
